@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+        <title>{% block title %}Spolsik{% endblock %}</title>
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+        {# assetic #}
+            {% stylesheets 
+                'assets/css/*'
+                'assets/font-awesome/*'
+                'assets/font/*'
+            %}
+                <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+            {% endstylesheets %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+   <body>
+
+        {% block body %}{% endblock %}
+        
+       
+
+    <hr>
+
+    
+ {# assetic #}
+            {% javascripts 
+                'assets/js/jquery.js' 
+               'assets/js/*' %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+          
+
+
+        
+    </body>
+</html>

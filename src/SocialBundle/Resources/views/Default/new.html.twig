@@ -1,0 +1,12 @@
+{% extends "SocialBundle::layout.html.twig" %}
+
+{% block body %}
+   <div class="container">
+    {% if error %}
+       <span>Il manque une information</span> 
+    {% endif %}
+    {{ form_start(form, {'method': 'POST', 'action':'/new'}) }}
+    
+    {{ form_end(form) }}
+    </div>
+{% endblock %}
