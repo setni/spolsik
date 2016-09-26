@@ -38,7 +38,7 @@ class DefaultController extends Controller
                     $em->flush();
                     return new RedirectResponse('/');
                 } catch (Exception $e) {
-                    return new Response('Une erreur '.$e->getMessage().' est survenue');
+                    return new Response("Une erreur ".$e->getMessage()." est survenue");
                 }
             }   
         } 

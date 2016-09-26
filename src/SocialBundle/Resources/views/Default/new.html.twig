@@ -5,8 +5,9 @@
     {% if error %}
        <span>Il manque une information</span> 
     {% endif %}
-    {{ form_start(form, {'method': 'POST', 'action':'/new'}) }}
-    
+    {{ form_start(form, {'method': 'POST', 'action':'/new', 'id': 'newForm'}) }}
+       
     {{ form_end(form) }}
     </div>
+
 {% endblock %}

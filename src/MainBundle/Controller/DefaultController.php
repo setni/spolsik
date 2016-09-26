@@ -14,19 +14,14 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        if( $this->container->get('security.authorization_checker')->isGranted('ROLE_USER') ){
-            
+        if( $this->container->get('security.authorization_checker')->isGranted('ROLE_USER') ){ 
              $actus = $this->getDoctrine()
                 ->getRepository('SocialBundle:Actuality')
                 ->findByUser($this->getUser())
             ;
-            return $this->render('SocialBundle:Default:index.html.twig', array(
-        
+            return $this->render('SocialBundle:Default:accueil.html.twig', array(
                 'actus' => $actus,
-            
-            ));
-            
+            ));  
         } return $this->render('MainBundle:Default:index.html.twig');
-        
     }
 }
