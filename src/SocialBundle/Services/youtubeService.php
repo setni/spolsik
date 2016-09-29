@@ -1,15 +1,9 @@
 <?php
+namespace SocialBundle\Services;
 
-// src/SocialBundle/Services/youtubeService.php
-
-
-namespace SocialBundle\youtubeService;
-
-
-class youtubeService
-
+class YoutubeService
 {
-    private query;
+    private $query;
     
     public function __construct ()
     {

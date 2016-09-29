@@ -21,6 +21,9 @@ class DefaultController extends Controller
      */
      public function newAction(request $request)
      {
+        $youtube = $this->get('social.Youtube');
+        var_dump($youtube->search('test'));
+         
         $user = $this->getUser();
         $new = new Actuality();
         $form = $this->createForm(ActualityType::class, $new);
