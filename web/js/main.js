@@ -1,5 +1,10 @@
 $(function() {
-    //action new
+    //actions new
+    
+    function getYoutubeAPI () {
+        
+    }
+    
     $("#newForm").validate({
         rules: {
             artiste: "required",
@@ -21,7 +26,7 @@ $(function() {
         }
     });
     //youtube link creation
-    if((links = $('.linkYoutube')).length > 0) {
+    if((var  links = $('.linkYoutube')).length > 0) {
         links.each(function () {
             link = $(this).attr('linkinfo');
             $(this).html('<iframe width="900" height="450" src="http://www.youtube.com/embed/'+link.split('=')[1]+'"></iframe>');
