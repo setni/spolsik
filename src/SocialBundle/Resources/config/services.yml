@@ -1,4 +1,4 @@
 services:
     social.Youtube:
         class: SocialBundle\Services\YoutubeService
-        arguments: ['youtube']
+        arguments: ['%YOUTUBE_API_KEY%']

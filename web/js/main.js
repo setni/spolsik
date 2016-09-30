@@ -2,7 +2,16 @@ $(function() {
     //actions new
     
     function getYoutubeAPI () {
-        
+        $.post('/youtube', 
+        {
+            titre: $('#titre').val(),
+            artiste: $('#ariste').val()
+        }, function(r) {
+            r.result.each(function () {
+                
+            })
+        },
+        'JSON');
     }
     
     $("#newForm").validate({
@@ -26,7 +35,7 @@ $(function() {
         }
     });
     //youtube link creation
-    if((var  links = $('.linkYoutube')).length > 0) {
+    if((var links = $('.linkYoutube')).length > 0) {
         links.each(function () {
             link = $(this).attr('linkinfo');
             $(this).html('<iframe width="900" height="450" src="http://www.youtube.com/embed/'+link.split('=')[1]+'"></iframe>');
