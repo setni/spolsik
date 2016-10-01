@@ -17,27 +17,27 @@ class ActualityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('artiste',null, array(
-                    'attr'  => array('class' => 'form-control')
-                )
+            ->add('artiste',null, [
+                    'attr'  => ['class' => 'form-control']
+                ]
             )
-            ->add('titre',null, array(
-                    'attr'  => array('class' => 'form-control')
-                )
+            ->add('titre',null, [
+                    'attr'  => ['class' => 'form-control']
+                ]
             )
-            ->add('description', TextareaType::class , array(
-                    'attr'  => array('class' => 'form-control')
-                )
+            ->add('description', TextareaType::class , [
+                    'attr'  => ['class' => 'form-control']
+                ]
             )
-            ->add('youtube' ,null, array(
-                    'attr'  => array('class' => 'form-control')
-                )
+            ->add('youtube' ,null, [
+                    'attr'  => array('class' => 'form-control']
+                ]
             )
            
-            ->add('submit', SubmitType::class, array(
+            ->add('submit', SubmitType::class, [
                 'label' => 'Go', 
-                'attr'  => array('class' => 'btn btn-default pull-left')
-                )
+                'attr'  => ['class' => 'btn btn-default pull-left']
+                ]
             )
         ;
     }

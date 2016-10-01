@@ -15,7 +15,7 @@ class youtubeService
     public function search ($query)
     {
         $this->query = $query;
-        return json_encode($this->getAPIResult(), true);
+        return json_encode(['result' => $this->getAPIResult()], true);
     }
     
     private function getAPIResult()
@@ -27,10 +27,12 @@ class youtubeService
             ), true
         );
         foreach($youtubeData[0]['items'] as $oneResult) {
-            $videoArray['id'][] = $oneResult['id']['videoId'];
-            $videoArray['title'][] = $oneResult['titre'];
-            $videoArray['description'][] = $oneResult['description'];
-            $videoArray['channelTitle'][] = $oneResult['channelTitle'];
+            $videoArray[] = [
+                'id' => $oneResult['id']['videoId'],
+                'title' => $oneResult['titre'],
+                'description' => $oneResult['description'],
+                'channelTitle' => $oneResult['channelTitle']
+            ];
         }
         return $videoArray;
     }

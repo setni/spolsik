@@ -1,18 +1,29 @@
 $(function() {
     //actions new
-    
-    function getYoutubeAPI () {
+    function varProvider () {}
+    $('#get_youtube_API').on('click', function () {
         $.post('/youtube', 
         {
-            titre: $('#titre').val(),
-            artiste: $('#ariste').val()
+            titre: $('#actuality_titre').val(),
+            artiste: $('#actuality_artiste').val()
         }, function(r) {
-            r.result.each(function () {
+            JSON_parse(r).result.each(function () {
+                $this = $(this);
+                varProvider.template += "<p>"
+                    + $this.id
+                    + " / "
+                    + $this.artiste
+                    + " / "
+                    + $this.titre
+                    + " / "
+                    + $this.channelTitle
+                    + "</p>";
                 
-            })
+            });
+            $('#choix_video').html(varProvider.template);
         },
         'JSON');
-    }
+    });
     
     $("#newForm").validate({
         rules: {
@@ -35,8 +46,8 @@ $(function() {
         }
     });
     //youtube link creation
-    if((var links = $('.linkYoutube')).length > 0) {
-        links.each(function () {
+    if((varProvider.links = $('.linkYoutube')).length > 0) {
+        varProvider.links.each(function () {
             link = $(this).attr('linkinfo');
             $(this).html('<iframe width="900" height="450" src="http://www.youtube.com/embed/'+link.split('=')[1]+'"></iframe>');
         });

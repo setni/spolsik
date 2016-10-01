@@ -20,7 +20,7 @@ class DefaultController extends Controller
     /**
      * @Route("/new")
      */
-     public function newAction()
+     public function newAction(request $request)
      { 
         $user = $this->getUser();
         $new = new Actuality();
@@ -52,7 +52,10 @@ class DefaultController extends Controller
      */
     public function youtubeAction (request $request)
     {
-        $youtube = $this->get('social.Youtube')->search($request->get('artiste')." ".$request->get('titre'));
-        return new JsonResponse(['result' => $youtube]);
+        return new JsonResponse(
+            $this->get('social.Youtube')->search(
+                $request->get('artiste')." ".$request->get('titre')
+            )
+        );
     }
 }
