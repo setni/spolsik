@@ -42,6 +42,7 @@ class DefaultController extends Controller
                 }
             }   
         } 
+
         return $this->render(
             'SocialBundle:Default:new.html.twig',
             ['error' => $error, 'form' => $form->createView()]
@@ -49,6 +50,7 @@ class DefaultController extends Controller
     }
     /**
      * @Route("/youtube")
+     * @Method("POST")
      */
     public function youtubeAction (request $request)
     {
@@ -60,9 +62,25 @@ class DefaultController extends Controller
     }
     /**
      * @Route("/comment")
+     * @Method("POST")
      */
     public function commentAction(request $request)
-    {
-        
+    {       
+        $session = $request->getSession();
+        $tokenS = $session->get('token');
+        $comment = $request->get('comment');
+        $idActu = $request->get('idActu');
+        $tokenF = $request->get('token');
+        if($tokenS == $tokenF) {
+            $em = $this->getDoctrine()->getManager();
+            $actuality = $em->getRepository('SocialBundle:Actuality')->find($idActu);
+            $comment = new Comment();
+            $comment
+                ->setText($comment)
+                ->setActuality($actuality)
+                ->setUser($this->getUser());
+            $em->persist($comment);
+            $em->flush();
+        }
     }
 }
