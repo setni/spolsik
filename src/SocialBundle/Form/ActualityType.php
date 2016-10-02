@@ -30,7 +30,7 @@ class ActualityType extends AbstractType
                 ]
             )
             ->add('youtube' ,null, [
-                    'attr'  => array('class' => 'form-control']
+                    'attr'  => ['class' => 'form-control']
                 ]
             )
            

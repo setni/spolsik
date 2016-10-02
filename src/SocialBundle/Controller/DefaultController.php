@@ -54,8 +54,15 @@ class DefaultController extends Controller
     {
         return new JsonResponse(
             $this->get('social.Youtube')->search(
-                $request->get('artiste')." ".$request->get('titre')
+                $request->get('query')
             )
         );
+    }
+    /**
+     * @Route("/comment")
+     */
+    public function commentAction(request $request)
+    {
+        
     }
 }

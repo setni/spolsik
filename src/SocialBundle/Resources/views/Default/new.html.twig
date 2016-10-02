@@ -7,8 +7,15 @@
     {% endif %}
     {{ form_start(form, {'method': 'POST', 'action':'/new', 'id': 'newForm'}) }}
        
-       <div id="get_youtube_API">Tester vidéo</div>
-       <div id="choix_video"></div>
+        {{ form_row(form.artiste) }}
+        {{ form_row(form.titre) }}
+       <br>
+       <input type='button' class="btn btn-secondary" id="get_youtube_API" value="RECHERCHER DES VIDEOS">
+       <div class="row" id="choix_video"></div>
+       
+        {{ form_row(form.description) }}
+        {{ form_row(form.youtube, {'label': 'Lien youtube'}) }}
+       
        
     {{ form_end(form) }}
     </div>

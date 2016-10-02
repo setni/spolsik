@@ -4,26 +4,28 @@ $(function() {
     $('#get_youtube_API').on('click', function () {
         $.post('/youtube', 
         {
-            titre: $('#actuality_titre').val(),
-            artiste: $('#actuality_artiste').val()
+            query: $('#actuality_titre').val()+" "+$('#actuality_artiste').val()
         }, function(r) {
-            JSON_parse(r).result.each(function () {
-                $this = $(this);
-                varProvider.template += "<p>"
-                    + $this.id
-                    + " / "
-                    + $this.artiste
-                    + " / "
-                    + $this.titre
-                    + " / "
-                    + $this.channelTitle
-                    + "</p>";
-                
+            varProvider.template = "";
+            $.each(JSON.parse(r).result, function () {
+                varProvider.template += "<div class='col-sm-6 col-md-2' >"
+                    + "<iframe width=120 height=120 src='http://www.youtube.com/embed/"+this.id+"'/>"
+                    + "<div class='caption' >"
+                    + "<h4>"+this.title+"</h4>"
+                    + "<p>"+this.description+"</p>"
+                    + "<span>"+this.channelTitle+"</span>"
+                    + "<p><a onclick='choixVideo(this)' data-url='https://www.youtube.com/watch?v="+this.id+"' class='btn btn-primary' role='button'>Choisir</a>"
+                    + "</div>"
+                    + "</div>";  
             });
             $('#choix_video').html(varProvider.template);
         },
         'JSON');
     });
+    
+    window.choixVideo = function (jObj) {
+        $('#actuality_youtube').val($(jObj).attr('data-url'));
+    }
     
     $("#newForm").validate({
         rules: {
@@ -36,7 +38,7 @@ $(function() {
             }
         },
         messages: {
-            artiste: "Merce d'entrer un artiste",
+            artiste: "Merci d'entrer un artiste",
             titre: "Merci d'entrer un titre",
             description : "Merci d'entrer une description",
             youtube: "Merci d'entrer un adresse youtube correcte"
@@ -53,7 +55,17 @@ $(function() {
         });
     }
     
-    function commentForm(idActu) {
-        
+    window.commentForm = function (idActu) {
+        if(/^\s*/.test(varProvider.comment = $('textarea[data-actu="'+idActu+'"]'))) {
+            alert("Vous n'avez pas écrit de commentaire");
+        } else {
+            $.post('/comment',
+            {
+                comment: varProvider.comment,
+                idActu: idActu
+            }, function(r) {
+                
+            });
+        }
     }
 });

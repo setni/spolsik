@@ -4,8 +4,6 @@
 
 {% block content %}
 
-{{ dump(actus) }}
-
 {% for actu in actus %}
     <div class="row">
 
@@ -25,7 +23,7 @@
                 <hr>
 
                 <!-- Date/Time -->
-                <p><span class="glyphicon glyphicon-time"></span> Posted {{ actu.date.format('Y-m-d H:i:s') }} </p>
+                <p><span class="glyphicon glyphicon-time"></span> Posté le {{ actu.date.format('Y-m-d à H:i') }} </p>
 
                 <hr>
 
@@ -46,12 +44,13 @@
 
                 <!-- Comments Form -->
                 <div class="well">
-                    <h4>Leave a Comment:</h4>
-                    <form role="form" onsubmit="javascript:commentForm({{ actu.id }}, this)" action="#" method="POST">
+                    <h4>Posté un commentaire:</h4>
+                    <form role="form" action="javascript:commentForm({{ actu.id }})" method="POST">
                         <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
+                            <textarea data-actu="{{ actu.id }}" class="form-control" rows="3"></textarea>
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
                 </div>
 

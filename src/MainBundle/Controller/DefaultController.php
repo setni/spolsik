@@ -17,11 +17,12 @@ class DefaultController extends Controller
         if( $this->container->get('security.authorization_checker')->isGranted('ROLE_USER') ){ 
              $actus = $this->getDoctrine()
                 ->getRepository('SocialBundle:Actuality')
-                ->findByUser($this->getUser())
+                ->findBy(['user' => $this->getUser()], ['date' => 'DESC'])
             ;
-            return $this->render('SocialBundle:Default:accueil.html.twig', array(
+            //exit(var_dump($actus));
+            return $this->render('SocialBundle:Default:accueil.html.twig', [ 
                 'actus' => $actus,
-            ));  
+            ]); 
         } return $this->render('MainBundle:Default:index.html.twig');
     }
 }
