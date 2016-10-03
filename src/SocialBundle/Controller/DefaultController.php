@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,16 +72,20 @@ class DefaultController extends Controller
         $comment = $request->get('comment');
         $idActu = $request->get('idActu');
         $tokenF = $request->get('token');
+        //exit($tokenF." / ".$tokenS);
         if($tokenS == $tokenF) {
             $em = $this->getDoctrine()->getManager();
             $actuality = $em->getRepository('SocialBundle:Actuality')->find($idActu);
-            $comment = new Comment();
-            $comment
+            $sql = new Comment();
+            $sql
                 ->setText($comment)
                 ->setActuality($actuality)
                 ->setUser($this->getUser());
-            $em->persist($comment);
+            $em->persist($sql);
             $em->flush();
+            return new Response("true");
+        } else {
+            throw $this->createAccessDeniedException();
         }
     }
 }

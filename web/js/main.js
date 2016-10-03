@@ -1,4 +1,6 @@
 $(function() {
+    "use strict";
+    
     //actions new
     function varProvider () {}
     $('#get_youtube_API').on('click', function () {
@@ -50,22 +52,25 @@ $(function() {
     //youtube link creation
     if((varProvider.links = $('.linkYoutube')).length > 0) {
         varProvider.links.each(function () {
-            link = $(this).attr('linkinfo');
-            $(this).html('<iframe width="900" height="450" src="http://www.youtube.com/embed/'+link.split('=')[1]+'"></iframe>');
+            varProvider.link = $(this).attr('linkinfo');
+            //$(this).html('<iframe width="900" height="450" src="http://www.youtube.com/embed/'+varProvider.link.split('=')[1]+'"></iframe>');
         });
     }
     
     window.commentForm = function (idActu) {
-        if(/^\s*/.test(varProvider.comment = $('textarea[data-actu="'+idActu+'"]'))) {
+        if(!/\b/.test(varProvider.comment = $('textarea[data-actu="'+idActu+'"]').val())) {
             alert("Vous n'avez pas écrit de commentaire");
         } else {
             $.post('/comment',
             {
                 comment: varProvider.comment,
-                idActu: idActu
+                idActu: idActu,
+                token: $('#_token').val()
             }, function(r) {
                 
-            });
+            }).fail(function() {
+                alert( "Token invalide" );
+            })
         }
     }
 });

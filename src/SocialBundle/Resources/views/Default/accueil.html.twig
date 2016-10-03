@@ -48,7 +48,7 @@
                     <form role="form" action="javascript:commentForm({{ actu.id }})" method="POST">
                         <div class="form-group">
                             <textarea data-actu="{{ actu.id }}" class="form-control" rows="3"></textarea>
-                            <input type="hidden" name="token" value="{{ token }}">
+                            <input type="hidden" id="_token" name="token" value="{{ token }}">
                         </div>
                         <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
