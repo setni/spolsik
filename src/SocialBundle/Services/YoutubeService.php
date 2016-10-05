@@ -27,7 +27,6 @@ class YoutubeService
                 "verify_peer_name"=> false,
             ],
         ];
-        //exit("https://www.googleapis.com/youtube/v3/search?part=snippet&q=".urlencode($this->query)."&key=AIzaSyBHh98RBg7JmbuGfuIVITP1uJRfAAiKspM");
         $youtubeData = json_decode(
             file_get_contents(
                 "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&q=".urlencode($this->query)."&key=".$this->youtubeAPIKey,
@@ -35,9 +34,7 @@ class YoutubeService
                 stream_context_create($arrContextOptions)
             ), true
         );
-        //exit(var_dump($youtubeData['items']));
         foreach($youtubeData['items'] as $oneResult) {
-            //var_dump($oneResult['id']);
             if($oneResult['id']['kind'] == "youtube#video") {
                 $videoArray[] = [
                     'id' => $oneResult['id']['videoId'],
