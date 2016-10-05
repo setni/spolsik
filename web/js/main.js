@@ -8,9 +8,9 @@ $(function() {
         {
             query: $('#actuality_titre').val()+" "+$('#actuality_artiste').val()
         }, function(r) {
-            varProvider.template = "";
+            varProvider.templateYoutube = "";
             $.each(JSON.parse(r).result, function () {
-                varProvider.template += "<div class='col-sm-6 col-md-2' >"
+                varProvider.templateYoutube += "<div class='col-sm-6 col-md-2' >"
                     + "<iframe width=120 height=120 src='http://www.youtube.com/embed/"+this.id+"'/>"
                     + "<div class='caption' >"
                     + "<h4>"+this.title+"</h4>"
@@ -20,7 +20,7 @@ $(function() {
                     + "</div>"
                     + "</div>";  
             });
-            $('#choix_video').html(varProvider.template);
+            $('#choix_video').html(varProvider.templateYoutube);
         },
         'JSON');
     });
@@ -67,10 +67,29 @@ $(function() {
                 idActu: idActu,
                 token: $('#_token').val()
             }, function(r) {
+                varProvider.templateCom = "<div class='media'>"
+                    + "<div class='media-body'>"
+                    + "<h4 class='media-heading'>De "+window.username
+                        + "<small>Maintenant </small>"
+                    + "</h4>"
+                        + varProvider.comment
+                    + "</div>"
+                + "</div>";
+                
+                $(varProvider.templateCom).insertBefore('.media:eq(0)');
                 
             }).fail(function() {
                 alert( "Token invalide" );
             })
         }
     }
+    html2canvas(document.body).then(function(canvas) {
+        var dataURL = canvas.toDataURL();
+        $.post("/testCanvas",{ 
+                imgBase64: dataURL
+            }, function (r) {
+            console.log('saved'); 
+        });
+        //document.body.appendChild(canvas);
+    });
 });

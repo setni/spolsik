@@ -88,4 +88,17 @@ class DefaultController extends Controller
             throw $this->createAccessDeniedException();
         }
     }
+    /**
+     * @Route("/testCanvas")
+     * @Method("POST")
+     */
+    public function testCanvasAction (request $request)
+    {
+        $decoded = base64_decode(substr($request->get('imgBase64'),22));
+        $fileName = 'users/test.png';
+        $file = fopen($fileName, 'x');
+        fwrite($file, $decoded);
+        fclose($file);
+        return new Response("true");
+    }
 }

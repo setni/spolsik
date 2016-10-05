@@ -17,9 +17,10 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         if( $this->container->get('security.authorization_checker')->isGranted('ROLE_USER') ){ 
+            $user = $this->getUser();
              $actus = $this->getDoctrine()
                 ->getRepository('SocialBundle:Actuality')
-                ->findBy(['user' => $this->getUser()], ['date' => 'DESC'])
+                ->findBy(['user' => $user], ['date' => 'DESC'])  
             ;
             //exit(var_dump($actus));
 
@@ -28,7 +29,8 @@ class DefaultController extends Controller
             $session->set('token', $token);
             return $this->render('SocialBundle:Default:accueil.html.twig', [ 
                 'actus' => $actus,
-                'token' => $token
+                'token' => $token,
+                'user' => $user
             ]); 
         } return $this->render('MainBundle:Default:index.html.twig');
     }

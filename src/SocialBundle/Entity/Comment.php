@@ -14,8 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Comment
 {
     /**
-   * @ORM\ManyToOne(targetEntity="SocialBundle\Entity\Actuality")
-   * @ORM\JoinColumn(nullable=false)
+   * @ORM\ManyToOne(targetEntity="SocialBundle\Entity\Actuality", inversedBy="comment")
    */
     private $actuality;
     

@@ -13,7 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Actuality
 {
-    
+     /**
+     * @ORM\OneToMany(targetEntity="SocialBundle\Entity\Comment", mappedBy="actuality")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $comments;
      /**
    * @ORM\ManyToOne(targetEntity="MainBundle\Entity\User")
    * @ORM\JoinColumn(nullable=false)
@@ -68,6 +72,7 @@ class Actuality
     public function __construct()
     {
         $this->date = new \Datetime();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -222,5 +227,14 @@ class Actuality
     public function getUser()
     {
         return $this->user;
+    }
+    /**
+     * Get comments
+     *
+     * @return \SocialBundle\Entity\Comment
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

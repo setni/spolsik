@@ -28,28 +28,5 @@ class User extends BaseUser
      * @ORM\Column(name="profilPic", type="string", length=255)
      */
     private $profilePic;
-
-    /**
-     * Set profilePic
-     *
-     * @param string $profilePic
-     *
-     * @return User
-     */
-    public function setProfilePic($profilePic)
-    {
-        $this->profilePic = $profilePic;
-
-        return $this;
-    }
-
-    /**
-     * Get profilePic
-     *
-     * @return string
-     */
-    public function getProfilePic()
-    {
-        return $this->profilePic;
-    }
 }
+
