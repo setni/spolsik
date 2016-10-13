@@ -20,34 +20,39 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/new")
+     * @Method("POST")
      */
      public function newAction(request $request)
      { 
-        $user = $this->getUser();
-        $new = new Actuality();
-        $form = $this->createForm(ActualityType::class, $new);
-        $form->handleRequest($request);
-        $error = false;
-        if ($form->isSubmitted()) {
-            if(!$form->isValid()) {
-                $error = true;
-            } else {
-                $task = $form->getData()->setUser($user);
-                $em = $this->getDoctrine()->getManager();
-                try {
-                    $em->persist($task);
-                    $em->flush();
-                    return new RedirectResponse('/');
-                } catch (Exception $e) {
-                    return new Response("Une erreur ".$e->getMessage()." est survenue");
-                }
-            }   
-        } 
+         if( $this->container->get('security.authorization_checker')->isGranted('ROLE_USER') ){ 
+            $user = $this->getUser();
+            $new = new Actuality();
+            $form = $this->createForm(ActualityType::class, $new);
+            $form->handleRequest($request);
+            $error = false;
+            if ($form->isSubmitted()) {
+                if(!$form->isValid()) {
+                    $error = true;
+                } else {
+                    $task = $form->getData()->setUser($user);
+                    $em = $this->getDoctrine()->getManager();
+                    try {
+                        $em->persist($task);
+                        $em->flush();
+                        return new RedirectResponse('/');
+                    } catch (Exception $e) {
+                        return new Response("Une erreur ".$e->getMessage()." est survenue");
+                    }
+                }   
+            } 
 
-        return $this->render(
-            'SocialBundle:Default:new.html.twig',
-            ['error' => $error, 'form' => $form->createView()]
-        );
+            return $this->render(
+                'SocialBundle:Default:new.html.twig',
+                ['error' => $error, 'form' => $form->createView()]
+            );
+         } else {
+             throw $this->createAccessDeniedException();
+         }
     }
     /**
      * @Route("/youtube")
@@ -89,16 +94,20 @@ class DefaultController extends Controller
         }
     }
     /**
-     * @Route("/testCanvas")
+     * @Route("/abonnement")
      * @Method("POST")
      */
-    public function testCanvasAction (request $request)
+    public function abonnementAction (request $request)
     {
-        $decoded = base64_decode(substr($request->get('imgBase64'),22));
-        $fileName = 'users/test.png';
-        $file = fopen($fileName, 'x');
-        fwrite($file, $decoded);
-        fclose($file);
-        return new Response("true");
+        $session = $request->getSession();
+        $tokenS = $session->get('token');
+        $userFriendId = $request->get('profil');
+        $tokenF = $request->get('token');
+        if($tokenS == $tokenF) {
+            $userFriend = $em->getRepository('MainBundle:User')->find($userFriendId);
+            
+        } else {
+            throw $this->createAccessDeniedException();
+        }
     }
 }

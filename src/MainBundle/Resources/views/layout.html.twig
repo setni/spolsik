@@ -24,8 +24,6 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            Connecté en tant que {{ app.user.username }}
-            -
             <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
         {% else %}
             <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
@@ -52,7 +50,7 @@
 <div class="content-section-a">
   <div class="container">
   {% block fos_user_content %}
-  {% endblock fos_user_content %}
+  {% endblock %}
     </div>
 </div>
   

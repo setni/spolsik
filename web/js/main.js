@@ -1,29 +1,35 @@
 $(function() {
     
-    MainController = {
-        'var': {},
-        'function': {
+    MainClass = {
+        var: {},
+        function: {
 
-            'init': function () {
+            init: function () {
+                
+                //get new
+                $.post('/new', function (html) {
+                    $('div[data-type="new"]').html(html);
+                }, 'HTML');
+                
                 //actions new
                 $('#get_youtube_API').on('click', function () {
                     $.post('/youtube', 
                     {
                         query: $('#actuality_titre').val()+" "+$('#actuality_artiste').val()
                     }, function(r) {
-                        MainController.var.templateYoutube = "";
+                        MainClass.var.templateYoutube = "";
                         $.each(JSON.parse(r).result, function () {
-                            MainController.var.templateYoutube += "<div class='col-sm-6 col-md-2' >"
+                            MainClass.var.templateYoutube += "<div class='col-sm-6 col-md-2' >"
                                 + "<iframe width=120 height=120 src='http://www.youtube.com/embed/"+this.id+"'/>"
                                 + "<div class='caption' >"
                                 + "<h4>"+this.title+"</h4>"
                                 + "<p>"+this.description+"</p>"
                                 + "<span>"+this.channelTitle+"</span>"
-                                + "<p><a onclick='MainController.function.choixVideo(this)' data-url='https://www.youtube.com/watch?v="+this.id+"' class='btn btn-primary' role='button'>Choisir</a>"
+                                + "<p><a onclick='MainClass.function.choixVideo(this)' data-url='https://www.youtube.com/watch?v="+this.id+"' class='btn btn-primary' role='button'>Choisir</a>"
                                 + "</div>"
                                 + "</div>";  
                         });
-                        $('#choix_video').html(MainController.var.templateYoutube);
+                        $('#choix_video').html(MainClass.var.templateYoutube);
                     },
                     'JSON');
                 });
@@ -49,91 +55,55 @@ $(function() {
                     }
                 });
                 //youtube link creation
-                if((MainController.var.links = $('.linkYoutube')).length > 0) {
-                    MainController.var.links.each(function () {
-                        MainController.var.link = $(this).attr('linkinfo');
-                        //$(this).html('<iframe width="900" height="450" src="http://www.youtube.com/embed/'+MainController.link.split('=')[1]+'"></iframe>');
+                if((MainClass.var.links = $('.linkYoutube')).length > 0) {
+                    MainClass.var.links.each(function () {
+                        MainClass.var.link = $(this).attr('linkinfo');
+                        //$(this).html('<iframe width="900" height="450" src="http://www.youtube.com/embed/'+MainClass.link.split('=')[1]+'"></iframe>');
                     });
                 }
             },
-            'choixVideo': function (jObj) {//put video url on the youtube input
+            choixVideo: function (jObj) {//put video url on the youtube input
                 $('#actuality_youtube').val($(jObj).attr('data-url'));
             },
-            'commentForm': function (idActu) {
-                if(!/\b/.test(MainController.var.comment = $('textarea[data-actu="'+idActu+'"]').val())) {
+            commentForm: function (idActu) {
+                if(!/\b/.test(MainClass.var.comment = $('textarea[data-actu="'+idActu+'"]').val())) {
                     alert("Vous n'avez pas écrit de commentaire");
                 } else {
                     $.post('/comment',
                     {
-                        comment: MainController.var.comment,
+                        comment: MainClass.var.comment,
                         idActu: idActu,
-                        token: $('#_token').val()
-                    }, function(r) {
-                        MainController.templateCom = "<div class='media'>"
+                        token: window.token
+                    }, function() {
+                        MainClass.var.templateCom = "<div class='media'>"
                             + "<div class='media-body'>"
                             + "<h4 class='media-heading'>De "+window.username
                                 + "<small>Maintenant </small>"
                             + "</h4>"
-                                + MainController.var.comment
+                                + MainClass.var.comment
                             + "</div>"
                         + "</div>";
-                        // TODO checker la présence d'un commentaire avant insert
-                        $(MainController.var.templateCom).insertBefore('.media:eq(0)');
-
+                        $(MainClass.var.templateCom).prependTo('div[data-id="comment'+idActu+'"]');
                     }).fail(function() {
                         alert( "Token invalide" );
-                    })
+                    });
                 }
             },
-            'getHome' : function () {
-
+            getHome : function () {
+                $('div[data-type="new"]').css('display','none');
+                $('div[data-type="actus"]').css('display','block');
             },
-            'getFavorite': function () {
-
+            getFavorite: function () {
+                //ajax favorite.twig
             },
-            'getProfile': function () {
-
+            getProfile: function () {
+                //ajax profil.twig
+            },
+            getNew: function () {
+                $('div[data-type="new"]').css('display','block');
+                $('div[data-type="actus"]').css('display','none');
             }
         }
     }
-     MainController.function.init;
-    
-    
-    /*MainController.commentForm = function (idActu) {
-        if(!/\b/.test(MainController.comment = $('textarea[data-actu="'+idActu+'"]').val())) {
-            alert("Vous n'avez pas écrit de commentaire");
-        } else {
-            $.post('/comment',
-            {
-                comment: MainController.comment,
-                idActu: idActu,
-                token: $('#_token').val()
-            }, function(r) {
-                MainController.templateCom = "<div class='media'>"
-                    + "<div class='media-body'>"
-                    + "<h4 class='media-heading'>De "+window.username
-                        + "<small>Maintenant </small>"
-                    + "</h4>"
-                        + MainController.comment
-                    + "</div>"
-                + "</div>";
-                
-                $(MainController.templateCom).insertBefore('.media:eq(0)');
-                
-            }).fail(function() {
-                alert( "Token invalide" );
-            })
-        }
-    }
-    
-    MainController.link = function () {
-        
-    }
-    MainController.getFavorite = function () {
-        
-    }
-    MainController.getProfile = function () {
-        
-    }
-    */
+     MainClass.function.init();
 });

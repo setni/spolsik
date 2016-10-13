@@ -1,0 +1,9 @@
+{% extends "MainBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index {% endblock %}
+
+{% block content %}
+    {{ form_start(form, {'method': 'POST', 'action':path("fos_user_security_check")}) }}
+    
+    {{ form_end(form) }}
+{% endblock %}

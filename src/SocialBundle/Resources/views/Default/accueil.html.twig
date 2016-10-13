@@ -3,7 +3,7 @@
 {% block title %}{{ parent() }} - Index{% endblock %}
 
 {% block content %}
-
+<div data-type="actus">
 {% for actu in actus %}
     
     <div class="row">
@@ -47,10 +47,9 @@
                 <!-- Comments Form -->
                 <div class="well">
                     <h4>Posté un commentaire:</h4>
-                    <form role="form" action="javascript:MainController.function.commentForm({{ actu.id }})" method="POST">
+                    <form role="form" action="javascript:MainClass.function.commentForm({{ actu.id }})" method="POST">
                         <div class="form-group">
                             <textarea data-actu="{{ actu.id }}" class="form-control" rows="3"></textarea>
-                            <input type="hidden" id="_token" name="token" value="{{ token }}">
                         </div>
                         <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
@@ -61,6 +60,7 @@
                 <!-- Posted Comments -->
 
                 <!-- Comment -->
+                <div data-id="comment{{ actu.id }}">
                 {% for comment in actu.comments|reverse %}
                     <div class="media">
                         <a class="pull-left" href="#">
@@ -74,12 +74,16 @@
                         </div>
                     </div>
                 {% endfor %}
+                </div>
 
             </div>
     </div>
 {% endfor %}
+</div>
+<div data-type="new" style="display:none;"></div>
 <script>
 window.username = "{{ user.username }}";
+window.token = "{{ token }}";
 //window.profilPic = "";
 </script>
 {% endblock %}

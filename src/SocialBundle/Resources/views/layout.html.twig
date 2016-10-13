@@ -19,20 +19,21 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            Connecté en tant que {{ app.user.username }}
-            -
             <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
         {% else %}
             <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
         {% endif %}
                     <li>
-                        <a href="javascript:window.getHome">Accueil</a>
+                        <a href="javascript:MainClass.function.getHome()">Accueil</a>
                     </li>
                     <li>
-                        <a href="javascript:window.getFavorite">Favoris</a>
+                        <a href="javascript:MainClass.function.getFavorite()">Favoris</a>
                     </li>
                     <li>
-                        <a href="javascript:window.getProfile">Profil</a>
+                        <a href="javascript:MainClass.function.getProfile()">Profil</a>
+                    </li>
+                    <li>
+                        <a href="javascript:MainClass.function.getNew()">Ajouter</a>
                     </li>
                 </ul>
             </div>
@@ -40,7 +41,7 @@
         </div>
         <!-- /.container -->
     </nav>
-<div class="content-section-a">
+<div id="Main_content" class="content-section-a">
   <div class="container">
       {% block content %}
       {% endblock %}
