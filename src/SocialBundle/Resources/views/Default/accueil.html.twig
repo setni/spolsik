@@ -3,8 +3,9 @@
 {% block title %}{{ parent() }} - Index{% endblock %}
 
 {% block content %}
-<div data-type="actus">
-{% for actu in actus %}
+<div class="main" data-type="actus">
+{% if actus %}
+    {% for actu in actus %}
     
     <div class="row">
 
@@ -78,9 +79,17 @@
 
             </div>
     </div>
-{% endfor %}
+    {% endfor %}
+{% else %}
+    <ul class="list-group">
+    {% for userList in usersList %}
+       <li class="list-group-item">{{ userList.username }} <span class="badge">12</span></li>
+    {% endfor %}
+     </ul>
+{% endif %}
 </div>
-<div data-type="new" style="display:none;"></div>
+<div class="main" data-type="new" style="display:none;"></div>
+<div class="main" data-type="profil" style="display:none;"></div>
 <script>
 window.username = "{{ user.username }}";
 window.token = "{{ token }}";

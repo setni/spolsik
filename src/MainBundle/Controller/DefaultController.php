@@ -24,15 +24,25 @@ class DefaultController extends Controller
                 ->getRepository('SocialBundle:Actuality')
                 ->findBy(['user' => $user], ['date' => 'DESC'])  
             ;
-            //exit(var_dump($actus));
-
+            
+            $usersList = (count($actus) === 0) ?
+                $this->getDoctrine()->getManager()
+                ->createQuery('
+                    SELECT u FROM MainBundle:User u WHERE u.id NOT IN 
+                        (SELECT v.idFollow FROM SocialBundle:Follow v WHERE v.user = :myUser) 
+                    AND u.id != :myUserId
+                    ')
+                ->setParameters(['myUser' => $user, 'myUserId' => $user->getId()])
+                ->getResult() 
+            : null;
+            
             $token = md5(uniqid());
-            $session = $request->getSession();
-            $session->set('token', $token);
+            $request->getSession()->set('token', $token);
             return $this->render('SocialBundle:Default:accueil.html.twig', [ 
                 'actus' => $actus,
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
+                'usersList' => $usersList
             ]); 
         } return $this->render('MainBundle:Default:index.html.twig');
     }

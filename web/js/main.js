@@ -90,18 +90,21 @@ $(function() {
                 }
             },
             getHome : function () {
-                $('div[data-type="new"]').css('display','none');
+                $('.main').css('display','none');
                 $('div[data-type="actus"]').css('display','block');
             },
             getFavorite: function () {
                 //ajax favorite.twig
             },
-            getProfile: function () {
-                //ajax profil.twig
+            getProfile: function (id) {
+                $.post('/profil', {id:id}, function (html) {
+                    $('.main').css('display','none');
+                    $('div[data-type="profil"]').css('display','block').html(html);
+                }, 'HTML');
             },
             getNew: function () {
+                $('.main').css('display','none');
                 $('div[data-type="new"]').css('display','block');
-                $('div[data-type="actus"]').css('display','none');
             }
         }
     }

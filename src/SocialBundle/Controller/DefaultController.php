@@ -77,7 +77,6 @@ class DefaultController extends Controller
         $comment = $request->get('comment');
         $idActu = $request->get('idActu');
         $tokenF = $request->get('token');
-        //exit($tokenF." / ".$tokenS);
         if($tokenS == $tokenF) {
             $em = $this->getDoctrine()->getManager();
             $actuality = $em->getRepository('SocialBundle:Actuality')->find($idActu);
@@ -109,5 +108,19 @@ class DefaultController extends Controller
         } else {
             throw $this->createAccessDeniedException();
         }
+    }
+    /**
+     * @Route("/profil")
+     * @Method("POST")
+     */
+    public function profilAction (request $request)
+    {
+        $idPro = $request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('MainBundle:User')->find($idPro);
+        return $this->render(
+                'SocialBundle:Default:profil.html.twig',
+                ['user' => $user]
+            );
     }
 }
