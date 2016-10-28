@@ -25,10 +25,15 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="profilPic", type="string", length=255, nullable=true)
+     * @ORM\Column(name="profilPic", type="string", length=255)
      */
     private $profilePic;
 
+    //CONSTRUCTOR
+    public function __construct()
+    {
+        $this->profilPic = "users/PP.png";
+    }
     /**
      * Set profilePic
      *

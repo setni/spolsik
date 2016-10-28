@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Twitter\BootstrapBundle\TwitterBootstrapBundle(),
+            new \JMS\SerializerBundle\JMSSerializerBundle(),
+            new \FOS\ElasticaBundle\FOSElasticaBundle(),
             new MainBundle\MainBundle(),
             new SocialBundle\SocialBundle(),
         ];

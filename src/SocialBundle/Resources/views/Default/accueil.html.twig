@@ -6,7 +6,7 @@
 <div class="main" data-type="actus">
 {% if actus %}
     {% for actu in actus %}
-    
+
     <div class="row">
 
             <!-- Blog Post Content Column -->
@@ -21,7 +21,7 @@
                 <p class="lead">
                     <img class="media-object img-responsive pull-left" height="50" width="50" src="users/PP.png" alt="">
                      &nbsp;&nbsp;de <a href="#">{{ actu.user.username }}</a><br><br>
-                    
+
                 </p>
 
                 <hr>
@@ -33,7 +33,7 @@
 
                 <!-- youtube link -->
                 <div class="linkYoutube" linkinfo="{{ actu.youtube }}">
-                    
+
                 </div>
 
                 <hr>
@@ -83,7 +83,7 @@
 {% else %}
     <ul class="list-group">
     {% for userList in usersList %}
-       <li class="list-group-item">{{ userList.username }} <span class="badge">12</span></li>
+       <li class="list-group-item col-xs-12">{{ userList.username }} <button onclick="javascript:MainClass.function.abonnement({{ userList.id }}, this)" type="button" class="btn btn-success pull-right">S'abonner</button></li>
     {% endfor %}
      </ul>
 {% endif %}

@@ -1,19 +1,22 @@
+
+"use strict";
 $(function() {
-    
-    MainClass = {
-        var: {},
+  window.MainClass = {
+        var: {
+          userLimit: 0
+        },
         function: {
 
             init: function () {
-                
+
                 //get new
                 $.post('/new', function (html) {
                     $('div[data-type="new"]').html(html);
                 }, 'HTML');
-                
+
                 //actions new
                 $('#get_youtube_API').on('click', function () {
-                    $.post('/youtube', 
+                    $.post('/youtube',
                     {
                         query: $('#actuality_titre').val()+" "+$('#actuality_artiste').val()
                     }, function(r) {
@@ -27,14 +30,14 @@ $(function() {
                                 + "<span>"+this.channelTitle+"</span>"
                                 + "<p><a onclick='MainClass.function.choixVideo(this)' data-url='https://www.youtube.com/watch?v="+this.id+"' class='btn btn-primary' role='button'>Choisir</a>"
                                 + "</div>"
-                                + "</div>";  
+                                + "</div>";
                         });
                         $('#choix_video').html(MainClass.var.templateYoutube);
                     },
                     'JSON');
                 });
 
-                $("#newForm").validate({
+                /*$("#newForm").validate({
                     rules: {
                         artiste: "required",
                         titre: "required",
@@ -54,6 +57,7 @@ $(function() {
                         form.submit();
                     }
                 });
+                */
                 //youtube link creation
                 if((MainClass.var.links = $('.linkYoutube')).length > 0) {
                     MainClass.var.links.each(function () {
@@ -85,7 +89,7 @@ $(function() {
                         + "</div>";
                         $(MainClass.var.templateCom).prependTo('div[data-id="comment'+idActu+'"]');
                     }).fail(function() {
-                        alert( "Token invalide" );
+                        alert( "Vous n'avez pas l'acces." );
                     });
                 }
             },
@@ -105,8 +109,25 @@ $(function() {
             getNew: function () {
                 $('.main').css('display','none');
                 $('div[data-type="new"]').css('display','block');
+            },
+            scrollUser: function () {
+
+            },
+            searchUser: function (pattern) {
+                $.post('/searchUser', {pattern: pattern}, function () {
+
+                }).fail(function () {
+
+                });
+            },
+            abonnement: function (id, htmlObj) {
+                $.post('/abonnement', {token: window.token, profil: id}, function () {
+                    $(htmlObj).parent('li').remove();
+                }).fail(function () {
+                    alert("vous n'avez pas l'acces.");
+                });
             }
         }
     }
-     MainClass.function.init();
+    MainClass.function.init();
 });

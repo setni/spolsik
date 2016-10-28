@@ -14,17 +14,18 @@ use Symfony\Component\HttpFoundation\Request;
 use SocialBundle\Form\ActualityType;
 use SocialBundle\Entity\Actuality;
 use SocialBundle\Entity\Comment;
+use SocialBundle\Entity\Follow;
 use Symfony\Component\Security\Csrf\CsrfToken;
 
-class DefaultController extends Controller
+class SocialController extends Controller
 {
     /**
      * @Route("/new")
      * @Method("POST")
      */
      public function newAction(request $request)
-     { 
-         if( $this->container->get('security.authorization_checker')->isGranted('ROLE_USER') ){ 
+     {
+         if( $this->container->get('security.authorization_checker')->isGranted('ROLE_USER') ){
             $user = $this->getUser();
             $new = new Actuality();
             $form = $this->createForm(ActualityType::class, $new);
@@ -43,8 +44,8 @@ class DefaultController extends Controller
                     } catch (Exception $e) {
                         return new Response("Une erreur ".$e->getMessage()." est survenue");
                     }
-                }   
-            } 
+                }
+            }
 
             return $this->render(
                 'SocialBundle:Default:new.html.twig',
@@ -71,7 +72,7 @@ class DefaultController extends Controller
      * @Method("POST")
      */
     public function commentAction(request $request)
-    {       
+    {
         $session = $request->getSession();
         $tokenS = $session->get('token');
         $comment = $request->get('comment');
@@ -81,8 +82,7 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $actuality = $em->getRepository('SocialBundle:Actuality')->find($idActu);
             $sql = new Comment();
-            $sql
-                ->setText($comment)
+            $sql->setText($comment)
                 ->setActuality($actuality)
                 ->setUser($this->getUser());
             $em->persist($sql);
@@ -100,11 +100,15 @@ class DefaultController extends Controller
     {
         $session = $request->getSession();
         $tokenS = $session->get('token');
-        $userFriendId = $request->get('profil');
+        $userFriendId = intval($request->get('profil'));
         $tokenF = $request->get('token');
         if($tokenS == $tokenF) {
-            $userFriend = $em->getRepository('MainBundle:User')->find($userFriendId);
-            
+            $em = $this->getDoctrine()->getManager();
+            $sql = new Follow($this->getUser());
+            $sql->setIdFollow($userFriendId);
+            $em->persist($sql);
+            $em->flush();
+            return new Response("true");
         } else {
             throw $this->createAccessDeniedException();
         }
@@ -122,5 +126,14 @@ class DefaultController extends Controller
                 'SocialBundle:Default:profil.html.twig',
                 ['user' => $user]
             );
+    }
+    /**
+     * @Route("/searchUser")
+     * @Method("POST")
+     */
+    public function searchUserAction (request $request)
+    {
+        $result = $this->get('app.userList')->searchUsers($request->get('pattern'));
+        return new Response(var_dump($result));
     }
 }

@@ -40,6 +40,11 @@ class Follow
      */
     private $blocked;
 
+    public function __construct(\MainBundle\Entity\User $user)
+    {
+        $this->user = $user;
+        $this->blocked = false;
+    }
 
     /**
      * Get id
@@ -122,4 +127,3 @@ class Follow
         return $this->user;
     }
 }
-
